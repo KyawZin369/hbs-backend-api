@@ -1,16 +1,22 @@
-const express = require("express")
+const express = require("express");
+const cors = require("cors");
+// const reviewRouter = require("./routes/userReview");
+const userRouter = require("./routes/userAccount");
+
 const app = express();
-const db = require("./dbConnection")
-
-app.use("/", (req, res) => {
-    // res.json({msg: "Testing api massage"})
-    db.client.find(function (err, data) {
-        res.json(data)
-        db.close();
-    })
-})
 
 
-app.listen("8000", ()=>{
-    console.log("Api Running in port 8000")
-})
+app.use(cors());
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
+// app.use('/reviews', reviewRouter);
+app.use('/users', userRouter); 
+
+
+app.listen(8000, () => {
+  console.log("API running on port 8000");
+});

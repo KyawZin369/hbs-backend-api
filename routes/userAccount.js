@@ -11,7 +11,7 @@ router.get("/", async (req,res, next)=>{
     res.json(user)
 })
 
-
+//
 router.post("/register", async function (req, res) {
 	const { name, email, country, password, phone_number, address} = req.body;
 	if (!name || !email || !password) {

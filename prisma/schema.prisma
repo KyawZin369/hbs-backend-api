@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// need to define models
 model User {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   name         String

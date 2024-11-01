@@ -13,13 +13,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// need to define models
 model User {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  email        String  @unique
-  country      String?
-  password     String
-  phoneNumber  String?  @map("phone_number")
-  address      String?
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId // MongoDB requires custom ID mapping
+  username   String   @unique
+  email      String   @unique
+  password   String
+  role       Role     @default(USER) // Use an enum to differentiate between user and admin roles
+  createdAt  DateTime @default(now())
+  bookings   Booking[] // Relation field for bookings
+}
+
+model Booking {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  hotelName   String
+  bookingDate DateTime
+  status      String   // e.g., "confirmed", "cancelled", "pending"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime? @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }
